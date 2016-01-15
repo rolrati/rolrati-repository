@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>Login</title>
+	<link type="text/css" rel="stylesheet" href="resources/css/default.css" />
+</h:head>
+<body>
+	<h:form>
+		<h1>Sign in</h1>
+		<p:panelGrid columns="1" styleClass="mainPanelGrid">
+			<p:panelGrid columns="2">
+				<p>Username</p>
+				<p:inputText value="#{loginController.username}" />
+				<p>Password</p>
+				<p:password value="#{loginController.password}" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" styleClass="buttonPanelGrid">
+				<p:commandButton action="#{loginController.loginButtonAction}"
+					value="Login" onselect="" />
+				<p:commandButton value="Register" />
+			</p:panelGrid>
+			<h:graphicImage library="img" name="fa1.jpg" styleClass="imgTree" />
+		</p:panelGrid>
+
+	</h:form>
+</body>
+</html>
