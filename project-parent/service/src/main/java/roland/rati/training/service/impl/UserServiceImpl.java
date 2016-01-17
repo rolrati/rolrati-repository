@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService, Serializable {
 
 	@Override
 	public UserVO findUserByName(String name) throws Exception {
-		return UserConverter.toVO(userDAO.findUserByName(name));
+		return UserConverter.toVO(userDAO.findUserByUsername(name));
 	}
 
 	@Override

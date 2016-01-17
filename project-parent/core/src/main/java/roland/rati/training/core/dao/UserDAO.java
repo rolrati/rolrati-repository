@@ -12,6 +12,6 @@ import roland.rati.training.core.entity.User;
 @Transactional(propagation=Propagation.SUPPORTS)
 public interface UserDAO extends JpaRepository<User, Long>{
 	
-	User findUserByName(@Param("username") String name) throws Exception;
+	User findUserByUsername(@Param("username") String name) throws Exception;
 
 }

@@ -19,7 +19,7 @@ public class CreateShema {
 	public void insertAdmin(){
 		User dto = null;
 		try{
-			if (userDAO.findUserByName("admin") == null) {
+			if (userDAO.findUserByUsername("admin") == null) {
 				dto = new User();
 				dto.setUsername("admin");
 				dto.setPassword("admin");
