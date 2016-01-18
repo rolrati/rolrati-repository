@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import roland.rati.training.converter.UserConverter;
 import roland.rati.training.core.dao.UserDao;
 import roland.rati.training.service.UserService;
-import roland.rati.training.service.vo.UserVO;
+import roland.rati.training.service.vo.UserVo;
 
 public class UserServiceImpl implements UserService, Serializable {
 
@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public UserVO findUserByName(String name) throws Exception {
+	public UserVo findUserByName(String name) throws Exception {
 		return UserConverter.toVO(userDAO.findUserByUsername(name));
 	}
 
 	@Override
-	public void registrateUser(UserVO user) throws Exception {
+	public void addUser(UserVo user) throws Exception {
 		userDAO.save(UserConverter.toEntity(user));
 
 	}
@@ -36,13 +36,38 @@ public class UserServiceImpl implements UserService, Serializable {
 	}
 
 	@Override
-	public void modifyUser(String username, UserVO user) throws Exception {
+	public void modifyUser(String username, UserVo user) throws Exception {
 //		UserVO modUser = UserConverter.toVO(userDAO.findUserByName(username));
 //
 //		modUser.setPassword(user.getPassword());
 //		modUser.setUsername(user.getUsername());
 //		
 //		userDAO.save(UserConverter.toEntity(modUser));
+	}
+
+	@Override
+	public UserVo findUserById(Long id) throws Exception {
+		 return UserConverter.toVO(userDAO.findUserById(id));
+	}
+
+	@Override
+	public void deleteUser(UserVo user) throws Exception {
+		userDAO.delete(UserConverter.toEntity(user));
+	}
+
+	@Override
+	public void addRoleToUser(Long userId, Long roleId) throws Exception {
+		userDAO.addRoleToUser(userId, roleId);
+	}
+
+	@Override
+	public void removeRoleFromUser(Long userId, Long roleId) throws Exception {
+		userDAO.removeRoleFromUser(userId, roleId);
+	}
+
+	@Override
+	public void removeAllRoleFromUser(Long userId) throws Exception {
+		userDAO.removeAllRoleFromUser(userId);
 	}
 
 }

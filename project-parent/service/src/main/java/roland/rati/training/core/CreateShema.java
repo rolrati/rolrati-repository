@@ -54,13 +54,8 @@ public class CreateShema {
 	}
 
 	public void addRoleToAdmin(){
-		User dto = null;
 		try{
-			if((dto = userDAO.findUserByUsername("admin")) != null){
-				dto.setRole(roleDao.findRoleByName("ROLE_ADMIN"));
-//				dto.setRole(roleDao.findRoleByName("ROLE_USER"));
-				userDAO.save(dto);
-			}
+			userDAO.addRoleToUser(userDAO.findUserByUsername("admin").getId(), roleDao.findRoleByName("ROLE_ADMIN").getId());
 		}catch(Exception e){
 			logger.error(e.getMessage(), e);
 		}

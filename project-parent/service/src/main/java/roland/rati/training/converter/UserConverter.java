@@ -3,29 +3,38 @@ package roland.rati.training.converter;
 import java.util.LinkedList;
 import java.util.List;
 
+import roland.rati.training.core.entity.Role;
 import roland.rati.training.core.entity.User;
-import roland.rati.training.service.vo.UserVO;
+import roland.rati.training.service.vo.RoleVo;
+import roland.rati.training.service.vo.UserVo;
 
 public class UserConverter {
 
-	public static UserVO toVO(User dto) {
-
-		UserVO vo = new UserVO();
-
+	public static UserVo toVO(User dto) {
 		if (dto == null) {
 			return null;
 		}
+
+		UserVo vo = new UserVo();
 
 		vo.setId(dto.getId());
 		vo.setUsername(dto.getUsername());
 		vo.setPassword(dto.getPassword());
 
+		if (dto.getRoles() != null) {
+			List<RoleVo> roleVos = new LinkedList<RoleVo>();
+			for (Role role : dto.getRoles()) {
+				roleVos.add(RoleConverter.toVO(role));
+			}
+			vo.setRoles(roleVos);
+		}
+
 		return vo;
 	}
 
-	public static List<UserVO> toVO(List<User> dtos) {
+	public static List<UserVo> toVO(List<User> dtos) {
 
-		List<UserVO> vos = new LinkedList<UserVO>();
+		List<UserVo> vos = new LinkedList<UserVo>();
 
 		if (dtos == null) {
 			return null;
@@ -38,32 +47,40 @@ public class UserConverter {
 		return vos;
 	}
 
-	public static User toEntity(UserVO vo) {
-		User dto = new User();
-
+	public static User toEntity(UserVo vo) {
 		if (vo == null) {
 			return null;
 		}
-		
+
+		User dto = new User();
+
 		dto.setId(vo.getId());
 		dto.setUsername(vo.getUsername());
 		dto.setPassword(vo.getPassword());
 
+		if (vo.getRoles() != null) {
+			List<Role> dtos = new LinkedList<Role>();
+			for (RoleVo role : vo.getRoles()) {
+				dtos.add(RoleConverter.toEntity(role));
+			}
+			dto.setRoles(dtos);
+		}
+
 		return dto;
 	}
-	
-	public static List<User> toEntity(List<UserVO> vos){
-		
+
+	public static List<User> toEntity(List<UserVo> vos) {
+
 		List<User> dtos = new LinkedList<User>();
-		
-		if(vos == null){
+
+		if (vos == null) {
 			return null;
 		}
-		
-		for(UserVO vo : vos){
+
+		for (UserVo vo : vos) {
 			dtos.add(toEntity(vo));
 		}
-		
+
 		return dtos;
 	}
 }
