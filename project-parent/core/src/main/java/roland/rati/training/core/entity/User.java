@@ -15,9 +15,9 @@ public class User extends Base {
 
 	private String username;
 	private String password;
-	
-	@ManyToMany 
-	@JoinTable(name="user_role_sw")
+
+	@ManyToMany
+	@JoinTable(name = "user_role_sw")
 	private List<Role> roles;
 
 	public String getUsername() {
@@ -39,7 +39,7 @@ public class User extends Base {
 	@Override
 	public String toString() {
 		return "id=" + getId() + ", username=" + username + ", password="
-				+ password;
+				+ password + ", Roles=[" + roles + "]";
 	}
 
 	public List<Role> getRoles() {
@@ -50,4 +50,7 @@ public class User extends Base {
 		this.roles = roles;
 	}
 
+	public void setRole(Role role) {
+		this.roles.add(role);
+	}
 }

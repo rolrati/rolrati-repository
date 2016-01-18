@@ -14,6 +14,8 @@ public class SpringContextListener implements
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
+		createShema.insertDefaultRoles();
 		createShema.insertAdmin();
+		createShema.addRoleToAdmin();
 	}
 }
