@@ -1,11 +1,20 @@
 package controllers;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
+import org.springframework.stereotype.Component;
+
+@Component
+@RequestScoped
 @ManagedBean(name = "loginController")
 public class Login {
 	private String username;
 	private String password;
+	
+	
+	
+	
 	
 	public void loginButtonAction(){
 		System.out.println(username + "-" + password);

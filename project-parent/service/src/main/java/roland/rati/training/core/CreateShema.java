@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import roland.rati.training.core.dao.UserDAO;
+import roland.rati.training.core.dao.UserDao;
 import roland.rati.training.core.entity.User;
 
 @Component
@@ -14,7 +14,7 @@ public class CreateShema {
 	private static final Logger logger = Logger.getLogger(CreateShema.class);
 	
 	@Autowired
-	public UserDAO userDAO;
+	public UserDao userDAO;
 	
 	public void insertAdmin(){
 		User dto = null;

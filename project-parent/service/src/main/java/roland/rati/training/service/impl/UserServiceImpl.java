@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import roland.rati.training.converter.UserConverter;
-import roland.rati.training.core.dao.UserDAO;
+import roland.rati.training.core.dao.UserDao;
 import roland.rati.training.service.UserService;
 import roland.rati.training.service.vo.UserVO;
 
@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	UserDAO userDAO;
+	UserDao userDAO;
 
 	public UserServiceImpl() {
 	}
