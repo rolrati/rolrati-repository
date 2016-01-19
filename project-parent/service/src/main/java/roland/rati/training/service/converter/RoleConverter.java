@@ -1,4 +1,4 @@
-package roland.rati.training.converter;
+package roland.rati.training.service.converter;
 
 import java.util.LinkedList;
 import java.util.List;

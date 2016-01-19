@@ -2,6 +2,7 @@ package roland.rati.training.core;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +42,15 @@ public class CreateShema {
 
 	public void insertAdmin() {
 		User dto = null;
+		
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String encPassword = bCryptPasswordEncoder.encode("admin");
+		
 		try {
 			if (userDAO.findUserByUsername("admin") == null) {
 				dto = new User();
 				dto.setUsername("admin");
-				dto.setPassword("admin");
+				dto.setPassword(encPassword);
 				userDAO.save(dto);
 			}
 		} catch (Exception e) {

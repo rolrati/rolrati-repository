@@ -7,7 +7,7 @@
 	<display-name>Archetype Created Web Application</display-name>
 
 	<welcome-file-list>
-		<welcome-file>faces/home.xhtml</welcome-file>
+		<welcome-file>faces/public/home.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<!-- FacesServlet is main servlet responsible to handle all request. It 
@@ -42,13 +42,28 @@
       </param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/springsecurity.taglib.xml</param-value>
+	</context-param>
+	
 	<listener>
 	    <listener-class>
 	      org.springframework.web.context.ContextLoaderListener
 	    </listener-class>
 	  </listener>
 	  
-<!-- 	<listener> -->
-<!-- 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class> -->
-<!-- 	</listener> -->
+	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

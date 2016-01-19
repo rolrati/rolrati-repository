@@ -3,12 +3,17 @@ package roland.rati.training.service.impl;
 import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import roland.rati.training.converter.UserConverter;
 import roland.rati.training.core.dao.UserDao;
 import roland.rati.training.service.UserService;
+import roland.rati.training.service.converter.UserConverter;
 import roland.rati.training.service.vo.UserVo;
 
+@Service("userService")
+@Transactional(propagation=Propagation.REQUIRED)
 public class UserServiceImpl implements UserService, Serializable {
 
 	private static final long serialVersionUID = 1L;
