@@ -2,17 +2,26 @@
 	border: none;
 }
 .login{
+	margin-top: 60px;
 	width: 200px;
 	height: 30px;
 }
 .error{
-	margin-top: 60px;
 	text-align: center;
 	color: red;
 }
 .mainPanelGrid {
+	margin-top: 100px;
 	margin: 0px auto;
 	text-align: center;
+}
+.registerPanelGrid{
+	margin: 0 px auto;
+}
+.rButton{
+	margin-top: 30px;
+	display: block;
+	margin: 0px auto;
 }
 .buttonPanelGrid {
     margin-left: 0px auto;

@@ -9,7 +9,24 @@
 <h:body>
 	<h:form>
 		<h1>secured</h1>
-		<p:button href="/logout" value="Log out"/>
+		<p:dataTable var="car" value="#{dtBasicView.cars}">
+			<p:column headerText="Id">
+				<h:outputText value="" />
+			</p:column>
+
+			<p:column headerText="Year">
+				<h:outputText value="" />
+			</p:column>
+
+			<p:column headerText="Brand">
+				<h:outputText value="" />
+			</p:column>
+
+			<p:column headerText="Color">
+				<h:outputText value="" />
+			</p:column>
+		</p:dataTable>
+		<p:button href="/logout" value="Log out" />
 	</h:form>
 </h:body>
 </html>

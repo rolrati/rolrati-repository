@@ -16,7 +16,7 @@
 	<form action="#{request.contextPath}/login" method="post">
 
 		<h:panelGroup layout="block" class="error"
-			rendered="#{param['error'] == 1}">Wrong password!</h:panelGroup>
+			rendered="#{param['error'] == 1}">Wrong password, or doesn't exist this user!</h:panelGroup>
 
 		<p:panelGrid columns="1" styleClass="mainPanelGrid">
 			<p:panelGrid columns="2">
@@ -28,9 +28,34 @@
 			<p:panelGrid columns="" styleClass="buttonPanelGrid">
 				<button type="submit" name="login" class="login">Sign in</button>
 			</p:panelGrid>
+			<p:outputLabel value="or" style="" />
+			<p:commandLink value="Register" style="color:blue"
+				onclick="PF('dialog').show();" />
+
 			<h:graphicImage library="img" name="fa1.jpg" styleClass="imgTree" />
 		</p:panelGrid>
 	</form>
 
+	<h:form>
+		<p:dialog id="dialog" header="Registration" position="center"
+			widgetVar="dialog" modal="true" resizable="false" height="300"
+			width="328">
+			<p:panelGrid columns="2" styleClass="registerPanelGrid">
+				<h:outputText value="Username" />
+				<p:inputText required="true"
+					value="#{registrationController.username}" />
+				<h:outputText value="Password" />
+				<p:password required="true"
+					value="#{registrationController.password}" />
+				<h:outputText value="Password confirmation" />
+				<p:password required="true"
+					value="#{registrationController.confPassword}" />
+			</p:panelGrid>
+			<p:commandButton styleClass="rButton" value="Submit"
+				onsuccess="PF('dialog').hide();"
+				actionListener="#{registrationController.doRegistration}" />
+		</p:dialog>
+	</h:form>
+	
 </h:body>
 </html>

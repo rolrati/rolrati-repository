@@ -13,7 +13,7 @@ import roland.rati.training.service.converter.UserConverter;
 import roland.rati.training.service.vo.UserVo;
 
 @Service("userService")
-@Transactional(propagation=Propagation.REQUIRED)
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,10 @@ public class UserServiceImpl implements UserService, Serializable {
 
 	@Override
 	public void addUser(UserVo user) throws Exception {
+		Long roleId = (long) 2;
+		System.out.println("MEGF SE HIVJA EZT A SZART");
 		userDAO.save(UserConverter.toEntity(user));
+		userDAO.addRoleToUser(user.getId(), roleId);
 
 	}
 
@@ -42,17 +45,18 @@ public class UserServiceImpl implements UserService, Serializable {
 
 	@Override
 	public void modifyUser(String username, UserVo user) throws Exception {
-//		UserVO modUser = UserConverter.toVO(userDAO.findUserByName(username));
-//
-//		modUser.setPassword(user.getPassword());
-//		modUser.setUsername(user.getUsername());
-//		
-//		userDAO.save(UserConverter.toEntity(modUser));
+		// UserVO modUser =
+		// UserConverter.toVO(userDAO.findUserByName(username));
+		//
+		// modUser.setPassword(user.getPassword());
+		// modUser.setUsername(user.getUsername());
+		//
+		// userDAO.save(UserConverter.toEntity(modUser));
 	}
 
 	@Override
 	public UserVo findUserById(Long id) throws Exception {
-		 return UserConverter.toVO(userDAO.findUserById(id));
+		return UserConverter.toVO(userDAO.findUserById(id));
 	}
 
 	@Override
