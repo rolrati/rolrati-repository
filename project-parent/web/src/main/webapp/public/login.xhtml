@@ -1,69 +1,64 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
-<h:head>
-	<meta charset="ISO-8859-1" />
-	<title>Login</title>
-</h:head>
+	<ui:define name="pageTitle">Login</ui:define>
+	<ui:define name="header"></ui:define>
+	<ui:define name="head-extra" />
 
-<script>
-	function hideDialog() {
-		PF('dialog').hide();
-	}
-</script>
+	<ui:define name="content">
+		<h:form>
+			<h:outputStylesheet library="css" name="login.css" />
+			<p:growl id="messages" showDetail="true" styleClass="message"
+				closable="true" autoUpdate="true" />
+			<h1></h1>
+		</h:form>
+		<form action="#{request.contextPath}/login" method="post">
 
-<h:body>
-	<h:form>
-		<h:outputStylesheet library="css" name="login.css" />
-		<p:growl id="messages" showDetail="true" styleClass="message" closable="true"
-			autoUpdate="true" />
-		<h1></h1>
-	</h:form>
-	<form action="#{request.contextPath}/login" method="post">
+			<h:panelGroup layout="block" class="error"
+				rendered="#{param['error'] == 1}">Wrong password, or doesn't exist this user!</h:panelGroup>
 
-		<h:panelGroup layout="block" class="error"
-			rendered="#{param['error'] == 1}">Wrong password, or doesn't exist this user!</h:panelGroup>
+			<p:panelGrid columns="1" styleClass="mainPanelGrid">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Username" />
+					<input type="text" name="username" />
+					<p:outputLabel value="Password" />
+					<input type="password" name="password" />
+				</p:panelGrid>
+				<p:panelGrid columns="" styleClass="buttonPanelGrid">
+					<button type="submit" name="login" class="login" id="login">Sign
+						in</button>
+				</p:panelGrid>
+				<p:outputLabel value="or" />
+				<p:commandLink value="Sign up" style="color:blue"
+					onclick="PF('dialog').show();" />
 
-		<p:panelGrid columns="1" styleClass="mainPanelGrid">
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Username" />
-				<input type="text" name="username" />
-				<p:outputLabel value="Password" />
-				<input type="password" name="password" />
+				<!-- 				<h:graphicImage library="img" name="fa1.jpg" styleClass="imgTree" /> -->
 			</p:panelGrid>
-			<p:panelGrid columns="" styleClass="buttonPanelGrid">
-				<button type="submit" name="login" class="login">Sign in</button>
-			</p:panelGrid>
-			<p:outputLabel value="or" />
-			<p:commandLink value="Sign up" style="color:blue"
-				onclick="PF('dialog').show();" />
+		</form>
 
-			<h:graphicImage library="img" name="fa1.jpg" styleClass="imgTree" />
-		</p:panelGrid>
-	</form>
+		<h:form id="registrationForm">
 
-	<h:form id="registrationForm">
-
-		<p:dialog id="dialog" header="Registration" position="center"
-			widgetVar="dialog" modal="true" resizable="false" height="200"
-			width="328">
-			<p:panelGrid columns="2" styleClass="registrationPanelGrid">
-				<h:outputText value="Username" />
-				<p:inputText value="#{registrationController.username}" />
-				<h:outputText value="Password" />
-				<p:password value="#{registrationController.password}" />
-				<h:outputText value="Password confirmation" />
-				<p:password value="#{registrationController.confPassword}" />
-			</p:panelGrid>
-			<p:commandButton styleClass="rButton" value="Submit"
-				onsuccess="hideDialog()" update="registrationForm"
-				actionListener="#{registrationController.doRegistration}">
-			</p:commandButton>
-		</p:dialog>
-	</h:form>
-
-</h:body>
-</html>
+			<p:dialog id="dialog" header="Registration" position="center"
+				widgetVar="dialog" modal="true" resizable="false" height="200"
+				width="328">
+				<p:panelGrid columns="2" styleClass="registrationPanelGrid">
+					<h:outputText value="Username" />
+					<p:inputText value="#{registrationController.username}" />
+					<h:outputText value="Password" />
+					<p:password value="#{registrationController.password}" />
+					<h:outputText value="Password confirmation" />
+					<p:password value="#{registrationController.confPassword}" />
+				</p:panelGrid>
+				<p:commandButton styleClass="rButton" value="Submit"
+					onsuccess="PF('dialog').hide()" update="registrationForm:dialog"
+					actionListener="#{registrationController.doRegistration}">
+				</p:commandButton>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

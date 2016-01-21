@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:view>
+		<h:head>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta name="viewport"
+				content="width=device-width, initial-scale=1.0, user-scalable=no" />
+			<ui:define name="head-extra" />
+		</h:head>
+		<h:body>
+			<p:menubar>
+				<p:menuitem value="Home" url="/public/home.xhtml"
+					icon="ui-icon-home" />
+
+				<f:facet name="options">
+					<c:choose>
+						<c:when test="#{request.userPrincipal.name == null}">
+							<p:button href="/public/login.xhtml" value="Sing in" />
+						</c:when>
+						<c:otherwise>
+							<p:outputLabel value="#{request.userPrincipal.name}  " />
+							<p:button href="/logout" value="Sign out"></p:button>
+						</c:otherwise>
+					</c:choose>
+				</f:facet>
+			</p:menubar>
+
+			<div id="contentDiv">
+				<div class="ui-wrap-content" style="height: 100%;">
+					<div id="content">
+						<div id="contentInside">
+							<ui:insert name="content" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:body>
+	</f:view>
+</ui:composition>
