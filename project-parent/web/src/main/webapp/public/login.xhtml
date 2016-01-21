@@ -3,14 +3,23 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
 <h:head>
 	<meta charset="ISO-8859-1" />
 	<title>Login</title>
 </h:head>
 
+<script>
+	function hideDialog() {
+		PF('dialog').hide();
+	}
+</script>
+
 <h:body>
 	<h:form>
 		<h:outputStylesheet library="css" name="login.css" />
+		<p:growl id="messages" showDetail="true" styleClass="message" closable="true"
+			autoUpdate="true" />
 		<h1></h1>
 	</h:form>
 	<form action="#{request.contextPath}/login" method="post">
@@ -28,34 +37,33 @@
 			<p:panelGrid columns="" styleClass="buttonPanelGrid">
 				<button type="submit" name="login" class="login">Sign in</button>
 			</p:panelGrid>
-			<p:outputLabel value="or" style="" />
-			<p:commandLink value="Register" style="color:blue"
+			<p:outputLabel value="or" />
+			<p:commandLink value="Sign up" style="color:blue"
 				onclick="PF('dialog').show();" />
 
 			<h:graphicImage library="img" name="fa1.jpg" styleClass="imgTree" />
 		</p:panelGrid>
 	</form>
 
-	<h:form>
+	<h:form id="registrationForm">
+
 		<p:dialog id="dialog" header="Registration" position="center"
-			widgetVar="dialog" modal="true" resizable="false" height="300"
+			widgetVar="dialog" modal="true" resizable="false" height="200"
 			width="328">
-			<p:panelGrid columns="2" styleClass="registerPanelGrid">
+			<p:panelGrid columns="2" styleClass="registrationPanelGrid">
 				<h:outputText value="Username" />
-				<p:inputText required="true"
-					value="#{registrationController.username}" />
+				<p:inputText value="#{registrationController.username}" />
 				<h:outputText value="Password" />
-				<p:password required="true"
-					value="#{registrationController.password}" />
+				<p:password value="#{registrationController.password}" />
 				<h:outputText value="Password confirmation" />
-				<p:password required="true"
-					value="#{registrationController.confPassword}" />
+				<p:password value="#{registrationController.confPassword}" />
 			</p:panelGrid>
 			<p:commandButton styleClass="rButton" value="Submit"
-				onsuccess="PF('dialog').hide();"
-				actionListener="#{registrationController.doRegistration}" />
+				onsuccess="hideDialog()" update="registrationForm"
+				actionListener="#{registrationController.doRegistration}">
+			</p:commandButton>
 		</p:dialog>
 	</h:form>
-	
+
 </h:body>
 </html>

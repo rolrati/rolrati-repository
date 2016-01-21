@@ -1,19 +1,23 @@
 package roland.rati.training.web.controllers;
+
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import roland.rati.training.service.RoleService;
 import roland.rati.training.service.UserService;
 import roland.rati.training.service.vo.UserVo;
 
 @Component
-@ViewScoped
+@RequestScoped
 @ManagedBean(name = "registrationController")
 public class RegistrationController implements Serializable {
 
@@ -25,37 +29,54 @@ public class RegistrationController implements Serializable {
 	private String password;
 	private String confPassword;
 	private String username;
+	
+	private boolean registrationSuccess;
 
 	@Autowired
 	UserService userService;
-	
+
+	@Autowired
+	RoleService roleService;
+
 	public RegistrationController() {
 	}
 
+	
 	public void doRegistration() {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		FacesContext context = FacesContext.getCurrentInstance();
 
-//		System.out.println(username + "-" + password);
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 		if (username != null && password != null && confPassword != null) {
 			try {
 				if (userService.findUserByName(username) != null) {
-					System.out.println("már létezik ilyen felhasználó");
+					context.addMessage(null, new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error",
+							"This user already exist!"));
 				} else {
 					UserVo newUser = new UserVo();
 
 					if (!password.equals(confPassword)) {
-						System.out.println("A ket jelszo nem egyezik meg");
+						context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Passwords doesn't match!"));
 					} else {
 						newUser.setUsername(username);
 						newUser.setPassword(bCryptPasswordEncoder
 								.encode(password));
-						System.out.println("EDDIG MINDEN ZSIR");
+
 						userService.addUser(newUser);
 
-						username = null;
-						password = null;
-						confPassword = null;
+						userService
+								.addRoleToUser(
+										userService.findUserByName(username)
+												.getId(), roleService
+												.findRoleByName("ROLE_USER")
+												.getId());
+						
+						context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!", "Successful registration."));
+
+						username = "";
+						password = "";
+						confPassword = "";
 					}
 				}
 			} catch (Exception e) {
@@ -89,4 +110,11 @@ public class RegistrationController implements Serializable {
 		this.username = username;
 	}
 
+	public boolean isRegistrationSuccess() {
+		return registrationSuccess;
+	}
+
+	public void setRegistrationSuccess(boolean registrationSuccess) {
+		this.registrationSuccess = registrationSuccess;
+	}
 }

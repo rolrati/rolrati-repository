@@ -31,11 +31,7 @@ public class UserServiceImpl implements UserService, Serializable {
 
 	@Override
 	public void addUser(UserVo user) throws Exception {
-		Long roleId = (long) 2;
-		System.out.println("MEGF SE HIVJA EZT A SZART");
 		userDAO.save(UserConverter.toEntity(user));
-		userDAO.addRoleToUser(user.getId(), roleId);
-
 	}
 
 	@Override
