@@ -5,8 +5,22 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Welcome</ui:define>
+
+	<ui:define name="head-extra">
+	</ui:define>
 	<ui:define name="content">
-		<h1 align="center">Welcome</h1>
+		<h:body>
+			<h:form>
+				<p:panel styleClass="mainPanel"
+					style="display: block;width: 1393px;min-height: 900px; margin: 0px auto">
+					<h1 align="center">Üdv itt!</h1>
+					<h3 align="center">Hamarosan elkészül weboldalunk,</h3>
+					<h3 align="center">ahol kedvedre böngészhetsz</h3>
+					<h3 align="center">ajánlataink között!</h3>
+					<h:graphicImage library="img" name="IMG_0684.JPG"
+						style="width: 600px; hegiht: 600px; display: block; margin: 0px auto" />
+				</p:panel>
+			</h:form>
+		</h:body>
 	</ui:define>
 </ui:composition>

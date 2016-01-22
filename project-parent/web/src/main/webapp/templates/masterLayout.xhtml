@@ -14,8 +14,16 @@
 				content="width=device-width, initial-scale=1.0, user-scalable=no" />
 			<ui:define name="head-extra" />
 		</h:head>
+		<style>
+body {
+	background-color: #f5f5f0;
+}
+</style>
 		<h:body>
-			<p:menubar>
+			<h:outputStylesheet libary="css" name="main.css" />
+			<h:graphicImage library="img" name="header.jpg"
+				style="display:block; margin:0px auto" />
+			<p:menubar style="width:1370px; display: block; margin: 0px auto">
 				<p:menuitem value="Home" url="/public/home.xhtml"
 					icon="ui-icon-home" />
 
@@ -41,6 +49,7 @@
 					</div>
 				</div>
 			</div>
+			
 		</h:body>
 	</f:view>
 </ui:composition>
