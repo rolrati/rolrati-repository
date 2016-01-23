@@ -21,16 +21,16 @@ body {
 </style>
 		<h:body>
 			<h:outputStylesheet libary="css" name="main.css" />
-			<h:graphicImage library="img" name="header.jpg"
-				style="display:block; margin:0px auto" />
+			<h:graphicImage library="img" name="header2.jpg"
+				style="display:block;width: 1400px; height: 300;margin:0px auto" />
 			<p:menubar style="width:1370px; display: block; margin: 0px auto">
-				<p:menuitem value="Home" url="/public/home.xhtml"
+				<p:menuitem url="/public/home.xhtml"
 					icon="ui-icon-home" />
 
 				<f:facet name="options">
 					<c:choose>
 						<c:when test="#{request.userPrincipal.name == null}">
-							<p:button href="/public/login.xhtml" value="Sing in" />
+							<p:button href="/public/login.xhtml" value="Bejelentkezés" />
 						</c:when>
 						<c:otherwise>
 							<p:outputLabel value="#{request.userPrincipal.name}  " />
