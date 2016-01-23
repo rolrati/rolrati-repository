@@ -29,7 +29,7 @@ public class RegistrationController implements Serializable {
 	private String password;
 	private String confPassword;
 	private String username;
-	
+
 	private boolean registrationSuccess;
 
 	@Autowired
@@ -41,7 +41,6 @@ public class RegistrationController implements Serializable {
 	public RegistrationController() {
 	}
 
-	
 	public void doRegistration() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
@@ -51,13 +50,15 @@ public class RegistrationController implements Serializable {
 			try {
 				if (userService.findUserByName(username) != null) {
 					context.addMessage(null, new FacesMessage(
-							FacesMessage.SEVERITY_ERROR, "Error",
-							"This user already exist!"));
+							FacesMessage.SEVERITY_ERROR, "Hiba!",
+							"Ez a felhasználónév már foglalt!"));
 				} else {
 					UserVo newUser = new UserVo();
 
 					if (!password.equals(confPassword)) {
-						context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Passwords doesn't match!"));
+						context.addMessage(null, new FacesMessage(
+								FacesMessage.SEVERITY_ERROR, "Hiba!",
+								"A jelszavak nem egyeznek meg!"));
 					} else {
 						newUser.setUsername(username);
 						newUser.setPassword(bCryptPasswordEncoder
@@ -71,8 +72,10 @@ public class RegistrationController implements Serializable {
 												.getId(), roleService
 												.findRoleByName("ROLE_USER")
 												.getId());
-						
-						context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!", "Successful registration."));
+
+						context.addMessage(null, new FacesMessage(
+								FacesMessage.SEVERITY_INFO, "Információ!",
+								"Sikeres regizstráció!"));
 
 						username = "";
 						password = "";

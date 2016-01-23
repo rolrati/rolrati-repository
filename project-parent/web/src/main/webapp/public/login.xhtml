@@ -11,51 +11,61 @@
 	<ui:define name="head-extra" />
 
 	<ui:define name="content">
-		<h:form>
-			<h:outputStylesheet library="css" name="login.css" />
-			<p:growl id="messages" showDetail="true" styleClass="message"
-				closable="true" autoUpdate="true" />
-			<h1></h1>
-		</h:form>
+		<h:outputStylesheet library="css" name="login.css" />
+		<p:growl id="messages" showDetail="true" showSummary="false" styleClass="message"
+			closable="true" autoUpdate="true" />
 		<form action="#{request.contextPath}/login" method="post">
 
-			<h:panelGroup layout="block" class="error"
-				rendered="#{param['error'] == 1}">Wrong password, or doesn't exist this user!</h:panelGroup>
+			<p:panel
+				style="display: block; width: 1393px; min-height: 900px; margin: 0px auto">
+				<h2 align="center">Bejelentkezés</h2>
+				<h:panelGroup layout="block" class="error"
+					rendered="#{param['error'] == 1}">Hibás felhasználónév vagy jeszó!</h:panelGroup>
+				<p:panel
+					style="display: block; width: 450px; height: 233px; margin: 0px auto; border: none">
 
-			<p:panelGrid columns="1" styleClass="mainPanelGrid">
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Username" />
-					<input type="text" name="username" />
-					<p:outputLabel value="Password" />
-					<input type="password" name="password" />
-				</p:panelGrid>
-				<p:panelGrid columns="" styleClass="buttonPanelGrid">
-					<button type="submit" name="login" class="login" id="login">Sign
-						in</button>
-				</p:panelGrid>
-				<p:outputLabel value="or" />
-				<p:commandLink value="Sign up" style="color:blue"
-					onclick="PF('dialog').show();" />
+					<p:panelGrid columns="2" styleClass="loginPanelGrid"
+						style="display: block; margin: 0px auto">
+						<p:outputLabel value="Felhasználónév" />
+						<input type="text" name="username" />
+						<p:outputLabel value="Jelszó" />
+						<input type="password" name="password" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" styleClass="loginPanelGrid"
+						style="display: block; margin: 0px auto; text-align: center; margin-top: 50px">
+						<button type="submit" name="login" class="login" id="login"
+							style="width: 150px; height: 33px">Belépés</button>
+						<p:outputLabel value="vagy" />
+						<p:commandLink value="Regisztráció" style="color:blue"
+							onclick="PF('dialog').show()" />
+					</p:panelGrid>
+				</p:panel>
 
-<!-- 								<h:graphicImage library="img" name="IMG_0684.JPG" styleClass="imgTree" /> -->
-			</p:panelGrid>
+				<h:graphicImage library="img" name="login.jpg" styleClass="img"></h:graphicImage>
+
+			</p:panel>
 		</form>
 
 		<h:form id="registrationForm">
 
-			<p:dialog id="dialog" header="Registration" position="center"
-				widgetVar="dialog" modal="true" resizable="false" height="200"
-				width="328">
+			<p:dialog id="dialog" header="Regisztráció" position="center"
+				widgetVar="dialog" modal="true" resizable="false" height="180"
+				width="350">
 				<p:panelGrid columns="2" styleClass="registrationPanelGrid">
-					<h:outputText value="Username" />
-					<p:inputText value="#{registrationController.username}" />
-					<h:outputText value="Password" />
-					<p:password value="#{registrationController.password}" />
-					<h:outputText value="Password confirmation" />
-					<p:password value="#{registrationController.confPassword}" />
+					<h:outputLabel for="username" value="Felhasználónév" />
+					<p:inputText id="username" value="#{registrationController.username}"
+						required="true" requiredMessage="A 'Felhasználónév' mező kitöltése kötelező!"/>
+					<h:outputText value="Jelszó" />
+					<p:password value="#{registrationController.password}"
+						required="true"  requiredMessage="A 'Jelszó' mező kitöltése kötelező!"/>
+					<h:outputText value="Jelszó megerősítés" />
+					<p:password value="#{registrationController.confPassword}"
+						required="true" requiredMessage="A 'Jelszó megererősítése' mező kitöltése kötelező!" />
 				</p:panelGrid>
-				<p:commandButton styleClass="rButton" value="Submit"
-					onsuccess="PF('dialog').hide()" update="registrationForm:dialog"
+				<p:commandButton styleClass="rButton"
+					style="display: block; margin: 0px auto; margin-top: 30px"
+					value="Felhasználó létrehozása" onsuccess="PF('dialog').hide()"
+					update="registrationForm:dialog"
 					actionListener="#{registrationController.doRegistration}">
 				</p:commandButton>
 			</p:dialog>

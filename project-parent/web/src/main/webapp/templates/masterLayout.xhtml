@@ -20,21 +20,24 @@ body {
 }
 </style>
 		<h:body>
-			<h:outputStylesheet libary="css" name="main.css" />
 			<h:graphicImage library="img" name="header2.jpg"
 				style="display:block;width: 1400px; height: 300;margin:0px auto" />
 			<p:menubar style="width:1370px; display: block; margin: 0px auto">
-				<p:menuitem url="/public/home.xhtml"
+				<p:menuitem value="Kezdőlap" url="/public/home.xhtml"
 					icon="ui-icon-home" />
 
 				<f:facet name="options">
 					<c:choose>
 						<c:when test="#{request.userPrincipal.name == null}">
-							<p:button href="/public/login.xhtml" value="Bejelentkezés" />
+							<p:button href="/public/login.xhtml" value="Bejelentkezés"
+								icon="ui-icon-locked" />
 						</c:when>
 						<c:otherwise>
-							<p:outputLabel value="#{request.userPrincipal.name}  " />
-							<p:button href="/logout" value="Sign out"></p:button>
+							<p:button icon="ui-icon-person"
+								style="color: blue; margin-right: 10px"
+								value="#{request.userPrincipal.name}" />
+							<p:button href="/logout" value="Kijelentkezés"
+								icon="ui-icon-unlocked" />
 						</c:otherwise>
 					</c:choose>
 				</f:facet>
@@ -49,7 +52,7 @@ body {
 					</div>
 				</div>
 			</div>
-			
+
 		</h:body>
 	</f:view>
 </ui:composition>
