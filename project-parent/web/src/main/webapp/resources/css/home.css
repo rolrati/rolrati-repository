@@ -2,13 +2,8 @@
 	border: none;
 	background-color: #f5f5f0;
 }
-.img{
+
+.partners {
 	display: block;
 	margin: 0px auto;
-	width: 100px;
-	height: 100px;
-}
-.error{
-	text-align: center;
-	color: red;
 }

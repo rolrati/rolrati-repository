@@ -12,17 +12,18 @@
 
 	<ui:define name="content">
 		<h:outputStylesheet library="css" name="login.css" />
-		<p:growl id="messages" showDetail="true" showSummary="false" styleClass="message"
-			closable="true" autoUpdate="true" />
+		<p:growl id="messages" showDetail="true" showSummary="false"
+			styleClass="message" closable="true" autoUpdate="true" />
 		<form action="#{request.contextPath}/login" method="post">
 
 			<p:panel
-				style="display: block; width: 1393px; min-height: 900px; margin: 0px auto">
+				style="display: block; width: 1142px; min-height: 900px; margin: 0px auto; background-color: #f5f5f0">
+				<h:graphicImage library="img" name="login.jpg" styleClass="img"></h:graphicImage>
 				<h2 align="center">Bejelentkezés</h2>
 				<h:panelGroup layout="block" class="error"
 					rendered="#{param['error'] == 1}">Hibás felhasználónév vagy jeszó!</h:panelGroup>
 				<p:panel
-					style="display: block; width: 450px; height: 233px; margin: 0px auto; border: none">
+					style="display: block; width: 450px; height: 233px; margin: 0px auto; border: none; background-color: #f5f5f0">
 
 					<p:panelGrid columns="2" styleClass="loginPanelGrid"
 						style="display: block; margin: 0px auto">
@@ -41,8 +42,6 @@
 					</p:panelGrid>
 				</p:panel>
 
-				<h:graphicImage library="img" name="login.jpg" styleClass="img"></h:graphicImage>
-
 			</p:panel>
 		</form>
 
@@ -53,14 +52,17 @@
 				width="350">
 				<p:panelGrid columns="2" styleClass="registrationPanelGrid">
 					<h:outputLabel for="username" value="Felhasználónév" />
-					<p:inputText id="username" value="#{registrationController.username}"
-						required="true" requiredMessage="A 'Felhasználónév' mező kitöltése kötelező!"/>
+					<p:inputText id="username"
+						value="#{registrationController.username}" required="true"
+						requiredMessage="A 'Felhasználónév' mező kitöltése kötelező!" />
 					<h:outputText value="Jelszó" />
 					<p:password value="#{registrationController.password}"
-						required="true"  requiredMessage="A 'Jelszó' mező kitöltése kötelező!"/>
+						required="true"
+						requiredMessage="A 'Jelszó' mező kitöltése kötelező!" />
 					<h:outputText value="Jelszó megerősítés" />
 					<p:password value="#{registrationController.confPassword}"
-						required="true" requiredMessage="A 'Jelszó megererősítése' mező kitöltése kötelező!" />
+						required="true"
+						requiredMessage="A 'Jelszó megererősítése' mező kitöltése kötelező!" />
 				</p:panelGrid>
 				<p:commandButton styleClass="rButton"
 					style="display: block; margin: 0px auto; margin-top: 30px"

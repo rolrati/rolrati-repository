@@ -16,13 +16,14 @@
 		</h:head>
 		<style>
 body {
-	background-color: #f5f5f0;
+	/* 	background-color: #f5f5f0; */
+	background-image: url(#{request.contextPath}/resources/img/bg.jpg)
 }
 </style>
 		<h:body>
 			<h:graphicImage library="img" name="header2.jpg"
-				style="display:block;width: 1400px; height: 300;margin:0px auto" />
-			<p:menubar style="width:1370px; display: block; margin: 0px auto">
+				style="display:block;width: 1150px; height: 300;margin:0px auto" />
+			<p:menubar style="width:1120px; display: block; margin: 0px auto">
 				<p:menuitem value="Kezdőlap" url="/public/home.xhtml"
 					icon="ui-icon-home" />
 
@@ -52,7 +53,7 @@ body {
 					</div>
 				</div>
 			</div>
-
+			
 		</h:body>
 	</f:view>
 </ui:composition>
