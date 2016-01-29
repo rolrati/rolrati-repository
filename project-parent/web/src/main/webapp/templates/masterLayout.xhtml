@@ -36,7 +36,8 @@ body {
 						<c:otherwise>
 							<p:button icon="ui-icon-person"
 								style="color: blue; margin-right: 10px"
-								value="#{request.userPrincipal.name}" />
+								value="#{request.userPrincipal.name}"
+								href="/secured/usermanagement.xhtml" />
 							<p:button href="/logout" value="Kijelentkezés"
 								icon="ui-icon-unlocked" />
 						</c:otherwise>

@@ -42,10 +42,10 @@ public class CreateShema {
 
 	public void insertAdmin() {
 		User dto = null;
-		
+
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		String encPassword = bCryptPasswordEncoder.encode("admin");
-		
+
 		try {
 			if (userDAO.findUserByUsername("admin") == null) {
 				dto = new User();
@@ -58,10 +58,37 @@ public class CreateShema {
 		}
 	}
 
-	public void addRoleToAdmin(){
-		try{
-			userDAO.addRoleToUser(userDAO.findUserByUsername("admin").getId(), roleDao.findRoleByName("ROLE_ADMIN").getId());
-		}catch(Exception e){
+	public void insertUsers(String username) {
+		User dto = null;
+
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String encPassword = bCryptPasswordEncoder.encode("welcome");
+
+		try {
+			dto = new User();
+			dto.setUsername(username);
+			dto.setPassword(encPassword);
+			userDAO.save(dto);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+	public void addRoleToAdmin() {
+		try {
+			userDAO.addRoleToUser(userDAO.findUserByUsername("admin").getId(),
+					roleDao.findRoleByName("ROLE_ADMIN").getId());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+	public void addRoleToUser(String username) {
+		try {
+			userDAO.addRoleToUser(userDAO.findUserByUsername(username).getId(),
+					roleDao.findRoleByName("ROLE_USER").getId());
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
