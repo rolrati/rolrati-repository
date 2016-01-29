@@ -1,5 +1,8 @@
 package roland.rati.training.core.dao.impl;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -44,5 +47,27 @@ public class UserDaoImpl implements UserDaoCustom  {
 			user.setRole(role);
 			userDao.save(user);
 		}
+	}
+
+	@Override
+	public List<User> findUsersByRole(Long roleId) throws Exception {
+		List<User> users = new LinkedList<User>();
+		List<User> rv = null;
+
+		Role role = roleDao.findRoleById(roleId);
+		users = userDao.findAll();
+
+		if (role != null) {
+			rv = new LinkedList<User>();
+			for (User user : users) {
+				List<Role> roles = new LinkedList<Role>();
+				roles = user.getRoles();
+
+				if (roles.contains(role)) {
+					rv.add(user);
+				}
+			}
+		}
+		return rv;
 	}
 }

@@ -1,5 +1,7 @@
 package roland.rati.training.service;
 
+import java.util.List;
+
 import roland.rati.training.service.vo.UserVo;
 
 public interface UserService {
@@ -21,5 +23,9 @@ public interface UserService {
 	public void removeAllRoleFromUser(Long userId) throws Exception;
 	
 	public int countUsers() throws Exception;
+
+	public List<UserVo> findUsersByRole(Long id) throws Exception;
+
+	public List<UserVo> findAllUser() throws Exception;
 
 }

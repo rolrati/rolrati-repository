@@ -1,6 +1,7 @@
 package roland.rati.training.service.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,16 @@ public class UserServiceImpl implements UserService, Serializable {
 	@Override
 	public void removeAllRoleFromUser(Long userId) throws Exception {
 		userDAO.removeAllRoleFromUser(userId);
+	}
+
+	@Override
+	public List<UserVo> findUsersByRole(Long id) throws Exception {
+		return UserConverter.toVO(userDAO.findUsersByRole(id));
+	}
+
+	@Override
+	public List<UserVo> findAllUser() {
+		return UserConverter.toVO(userDAO.findAll());
 	}
 
 }

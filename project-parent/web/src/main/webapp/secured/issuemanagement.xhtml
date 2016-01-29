@@ -12,9 +12,66 @@
 	<ui:define name="content">
 		<h:body>
 			<h:form>
+				<h:outputStylesheet name="issuemanagement.css" library="css" />
 				<p:panel styleClass="mainPanel"
 					style="display: block;width: 1142px;min-height: 900px; margin: 0px auto; background-color: #f5f5f0">
-					Hamarosan
+
+					<p:panel
+						style="width: 230; min-height: 840; float: right; margin-top: 30px; background-color: #f5f5f0; border: none">
+						<h:panelGrid columns="1"
+							style="display: block; margin: 0px auto; margin-top: 250px;">
+							<p:commandButton value="Küld" style="width: 100px"
+								actionListener="#{issuemanagementController.getTextValue}"
+								icon="ui-icon-disk" />
+
+							<p:commandButton value="Elvet" type="button" style="width: 100px"
+								onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+						</h:panelGrid>
+					</p:panel>
+
+					<p:panel
+						style="width: 230; min-height: 640; float: left; margin-top: 135px; background-color: #f5f5f0; border: none">
+						<p:fieldset legend="Elérhető" toggleable="true" toggleSpeed="500"
+							collapsed="true" style="color: blue">
+							<p:ajax event="toggle"
+								listener="#{issuemanagementController.initOrderList}"
+								update="table" />
+
+							<p:dataTable value="#{issuemanagementController.users}"
+								var="user" id="table" styleClass="borderless" scrollable="true"
+								scrollHeight="267" selectionMode="single"
+								selection="#{issuemanagementController.toUser}"
+								rowKey="#{user.id}">
+								<p:column>
+									<h:outputText value="#{user.username}" />
+								</p:column>
+							</p:dataTable>
+						</p:fieldset>
+					</p:panel>
+
+					<p:panel
+						style="display: block; margin: 0px auto; border: none; background-color: #f5f5f0; width: 650px">
+
+						<h1 align="center">Kapcsolatfelvétel</h1>
+						<h5 align="center" style="color: blue">
+							Segítségre van szükséged?<br /> Valamilyen észrevételed van a
+							weboldallal kapcsolatba?<br /> Írj nekünk! Kérdéseitekre
+							készséggel válaszolunk!
+						</h5>
+						<p:editor id="editor" widgetVar="editorWidget"
+							value="#{issuemanagementController.text}" height="300">
+						</p:editor>
+
+						<p:dataTable
+							style="display: block; margin: 0px auto; width: 640px; height: 300px; margin-top: 100px"
+							emptyMessage="Jelenleg nincs egyetlen üzenet sem!">
+							<p:column headerText="Felado">
+							</p:column>
+							<p:column headerText="Státusz">
+							</p:column>
+						</p:dataTable>
+
+					</p:panel>
 				</p:panel>
 			</h:form>
 		</h:body>
