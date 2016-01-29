@@ -18,7 +18,7 @@ public class SpringContextListener implements
 		createShema.insertAdmin();
 		createShema.addRoleToAdmin();
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 40; i++) {
 			String username = "user" + i;
 
 			createShema.insertUsers(username);

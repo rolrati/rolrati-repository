@@ -2,6 +2,9 @@ package roland.rati.training.web.controllers;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +13,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import roland.rati.training.service.MessageService;
 import roland.rati.training.service.RoleService;
 import roland.rati.training.service.UserService;
+import roland.rati.training.service.vo.MessageVo;
 import roland.rati.training.service.vo.RoleVo;
 import roland.rati.training.service.vo.UserVo;
 
@@ -27,7 +34,13 @@ public class IssuemanagementController implements Serializable {
 
 	private String text;
 	private UserVo toUser;
+	
 	private List<UserVo> users;
+	
+	private List<MessageVo> recieved;
+	private List<MessageVo> sended;
+
+	private MessageVo selectedMessage;
 
 	@Autowired
 	UserService userService;
@@ -35,30 +48,73 @@ public class IssuemanagementController implements Serializable {
 	@Autowired
 	RoleService roleService;
 
-	public void initOrderList() {
+	@Autowired
+	MessageService messageService;
+
+	public void initOrderList(ToggleEvent event) {
 		setUsers(new LinkedList<UserVo>());
+
+		if (event.getVisibility() == Visibility.HIDDEN) {
+			toUser = null;
+		} else {
+			try {
+				UserVo authenticatedUser = getAuthenticatedUser();
+				RoleVo authenticatedUserRole = authenticatedUser.getRoles()
+						.get(0);
+
+				if (authenticatedUserRole.getName().equals("ROLE_USER")) {
+					users = userService.findUsersByRole(roleService
+							.findRoleByName("ROLE_ADMIN").getId());
+				} else {
+					users = userService.findAllUser();
+					users.remove(authenticatedUser);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void refreshMessageBox() {
+		recieved = new LinkedList<MessageVo>();
+		sended = new LinkedList<MessageVo>();
+		
+		List<MessageVo> vos = new LinkedList<MessageVo>();
 
 		try {
 			UserVo authenticatedUser = getAuthenticatedUser();
-			RoleVo authenticatedUserRole = authenticatedUser.getRoles().get(0);
-
-			if (authenticatedUserRole.getName().equals("ROLE_USER")) {
-				users = userService.findUsersByRole(roleService.findRoleByName(
-						"ROLE_ADMIN").getId());
-			} else {
-				users = userService.findAllUser();
-				users.remove(authenticatedUser);
+			vos = messageService.findMessageByUser(authenticatedUser.getId());
+			
+			for (MessageVo messageVo : vos) {
+				if(messageVo.getSender().getId() == authenticatedUser.getId()){
+						sended.add(messageVo);
+				}else if(messageVo.getRecipient().getId() == authenticatedUser.getId()){
+					recieved.add(messageVo);
+				}
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void getTextValue() {
-		System.out.println("--------> TEXT" + text);
+		try {
+			Date date = new Date();
+			DateFormat dateFormat = new SimpleDateFormat(
+					"yyyy/mm/dd HH:MM:ss:mm");
+			System.out.println(dateFormat.format(date));
+			messageService.addMessage(text, getAuthenticatedUser(), toUser);
+
+			refreshMessageBox();
+			text = null;
+			toUser = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public UserVo getAuthenticatedUser() {
 		UserVo user = null;
 
@@ -107,5 +163,29 @@ public class IssuemanagementController implements Serializable {
 
 	public void setToUser(UserVo toUser) {
 		this.toUser = toUser;
+	}
+
+	public List<MessageVo> getRecieved() {
+		return recieved;
+	}
+
+	public void setRecieved(List<MessageVo> recieved) {
+		this.recieved = recieved;
+	}
+
+	public List<MessageVo> getSended() {
+		return sended;
+	}
+
+	public void setSended(List<MessageVo> sended) {
+		this.sended = sended;
+	}
+
+	public MessageVo getSelectedMessage() {
+		return selectedMessage;
+	}
+
+	public void setSelectedMessage(MessageVo selectedMessage) {
+		this.selectedMessage = selectedMessage;
 	}
 }

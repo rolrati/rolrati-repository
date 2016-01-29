@@ -7,6 +7,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>java:comp/env/jdbc/TestDB</non-jta-data-source>
 		<class>roland.rati.training.core.entity.Base</class>
+		<class>roland.rati.training.core.entity.Message</class>
 		<class>roland.rati.training.core.entity.Role</class>
 		<class>roland.rati.training.core.entity.User</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
