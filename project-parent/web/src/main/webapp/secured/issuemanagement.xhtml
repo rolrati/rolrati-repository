@@ -6,79 +6,151 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
 
-	<ui:define name="head-extra">
-	</ui:define>
+	<ui:define name="pageTitle">Issue</ui:define>
+	<ui:define name="header"></ui:define>
+	<ui:define name="head-extra" />
 
 	<ui:define name="content">
-		<p:growl autoUpdate="true" showSummary="false" />
-		<h:body>
-			<h:form id="form">
+		<h:form id="form">
+			<p:growl id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<h:outputStylesheet name="issuemanagement.css" library="css" />
+			<p:panel
+				style="display: block;width: 1142px;min-height: 1100px; margin: 0px auto; background-color: #f5f5f0">
+
 				<p:panel
-					style="display: block;width: 1142px;min-height: 900px; margin: 0px auto; background-color: #f5f5f0">
+					style="width: 230; height: 430; float: right; margin-top: 30px; background-color: #f5f5f0; border: none">
+					<h:panelGrid columns="1"
+						style="display: block; margin: 0px auto; margin-top: 250px;">
+						<p:commandButton id="kuld" value="Küld" style="width: 100px"
+							update="form"
+							disabled="#{issuemanagementController.toUser == null}"
+							actionListener="#{issuemanagementController.getTextValue}"
+							icon="ui-icon-disk" onsuccess="PF('editorWidget').clear();" />
 
-					<p:panel
-						style="width: 230; min-height: 840; float: right; margin-top: 30px; background-color: #f5f5f0; border: none">
-						<h:panelGrid columns="1"
-							style="display: block; margin: 0px auto; margin-top: 250px;">
-							<p:commandButton id="kuld" value="Küld" style="width: 100px"
-								update="form"
-								disabled="#{issuemanagementController.toUser == null}"
-								actionListener="#{issuemanagementController.getTextValue}"
-								icon="ui-icon-disk" onsuccess="PF('editorWidget').clear();" />
+						<p:commandButton id="elvet" value="Elvet" type="button"
+							style="width: 100px" onclick="PF('editorWidget').clear();"
+							icon="ui-icon-close" />
+					</h:panelGrid>
+				</p:panel>
 
-							<p:commandButton id="elvet" value="Elvet" type="button"
-								style="width: 100px" onclick="PF('editorWidget').clear();"
-								icon="ui-icon-close" />
-						</h:panelGrid>
-					</p:panel>
+				<p:panel
+					style="width: 230; min-height: 330; float: left; margin-top: 135px; background-color: #f5f5f0; border: none">
+					<p:fieldset legend="Elérhető felhasználók" toggleable="true"
+						toggleSpeed="500" style="font-size: 12px" collapsed="true">
+						<p:ajax event="toggle"
+							listener="#{issuemanagementController.initOrderList}"
+							update="form" />
 
-					<p:panel
-						style="width: 230; min-height: 640; float: left; margin-top: 135px; background-color: #f5f5f0; border: none">
-						<p:fieldset legend="Elérhető" toggleable="true" toggleSpeed="500"
-							collapsed="true" style="color: blue">
-							<p:ajax event="toggle"
-								listener="#{issuemanagementController.initOrderList}"
-								update="form" />
-
-							<p:dataTable value="#{issuemanagementController.users}"
-								var="user" id="table" styleClass="borderless" scrollable="true"
-								scrollHeight="267" selectionMode="single"
-								selection="#{issuemanagementController.toUser}"
-								rowKey="#{user.id}">
-								<p:ajax event="rowSelect" update=":form:kuld" />
-								<p:column>
-									<h:outputText value=" #{user.username}" />
-								</p:column>
-							</p:dataTable>
-						</p:fieldset>
-					</p:panel>
-
-					<p:panel
-						style="display: block; margin: 0px auto; border: none; background-color: #f5f5f0; width: 650px">
-
-						<h1 align="center">Kapcsolatfelvétel</h1>
-						<h5 align="center" style="color: blue">
-							Segítségre van szükséged?<br /> Valamilyen észrevételed van a
-							weboldallal kapcsolatba?<br /> Írj nekünk! Kérdéseitekre
-							készséggel válaszolunk!
-						</h5>
-						<p:editor id="editor" widgetVar="editorWidget"
-							value="#{issuemanagementController.text}" height="300">
-						</p:editor>
-
-						<p:dataTable scrollable="true" scrollHeight="300"
-							selection="#{issuemanagementController.selectedMessage}"
-							style="display: block; margin: 0px auto; width: 645px; height: 300px; margin-top: 50px"
-							emptyMessage="Jelenleg nincs egyetlen üzenet sem!"
-							value="#{issuemanagementController.sended}" var="sm">
-							<p:column headerText="Címzett">
-								<h:outputText value=" #{sm.recipient.username}" />
+						<p:dataTable value="#{issuemanagementController.users}" var="user"
+							id="table" styleClass="borderless" scrollable="true"
+							scrollHeight="285" selectionMode="single"
+							selection="#{issuemanagementController.toUser}"
+							rowKey="#{user.id}">
+							<p:ajax event="rowSelect" update=":form:kuld" />
+							<p:column>
+								<h:outputText value=" #{user.username}" />
 							</p:column>
 						</p:dataTable>
-
-					</p:panel>
+					</p:fieldset>
 				</p:panel>
-			</h:form>
-		</h:body>
+
+				<p:panel
+					style="display: block; margin: 0px auto; border: none; background-color: #f5f5f0; width: 650px">
+
+					<h1 align="center">Kapcsolatfelvétel</h1>
+					<h5 align="center" style="color: blue">
+						Valamilyen kérdésed van?<br /> Esetleg észrevételed van a
+						weboldallal kapcsolatba?<br /> Írj nekünk! Kérdésedre készséggel
+						válaszolunk!
+					</h5>
+					<p:editor id="editor" widgetVar="editorWidget"
+						value="#{issuemanagementController.text}" height="300">
+					</p:editor>
+				</p:panel>
+
+				<p:panel id="panel2"
+					style="display: block; margin: 0px auto; border: none; background-color: #f5f5f0; width: 650px">
+					<p:remoteCommand name="rc"
+						actionListener="#{issuemanagementController.removeMessageSelect}"
+						update=":form:panel2" />
+					<p:wizard id="wizard" nextLabel="Következő" backLabel="Előző"
+						showNavBar="true" showStepStatus="true" onnext="rc()"
+						onback="rc()"
+						style="display: block; margin: 0px auto; margin-top: 100px">
+						<p:tab id="recieved" title="Beérkezett">
+							<p:panel style="height: 320px">
+								<p:dataTable id="receivedDT" selectionMode="single"
+									selection="#{issuemanagementController.selectedMessage}"
+									rowKey="#{received.id}" var="received" scrollHeight="200"
+									scrollable="true" emptyMessage="Üres"
+									value="#{issuemanagementController.recieved}">
+									<p:ajax event="rowSelect"
+										update=":form:panel2, :form:messageDialog" />
+									<p:column headerText="Feladó"
+										filterBy="#{received.sender.username}"
+										sortBy="#{received.sender.username}">
+										<h:outputText value="#{received.sender.username}" />
+									</p:column>
+									<p:column headerText="Dátum">
+										<h:outputText value="#{received.date}" />
+									</p:column>
+								</p:dataTable>
+								<p:commandButton process="receivedDT"
+									style="float: left; margin-top: 10px" icon="ui-icon-mail-open"
+									disabled="#{issuemanagementController.selectedMessage == null}"
+									value="Olvas" oncomplete="PF('messageDialog').show()" />
+								<p:commandButton icon="ui-icon-trash" value="Törlés"
+									id="deleteSelectedRM" style="margin-top: 10px"
+									update=":form:panel2"
+									disabled="#{issuemanagementController.selectedMessage == null}"
+									actionListener="#{issuemanagementController.deleteMessage}" />
+							</p:panel>
+						</p:tab>
+						<p:tab id="sended" title="Elküldött">
+							<p:panel style="height: 320px">
+								<p:dataTable id="sendedDT" selectionMode="single"
+									emptyMessage="Üres"
+									selection="#{issuemanagementController.selectedMessage}"
+									rowKey="#{sended.id}"
+									value="#{issuemanagementController.sended}" scrollable="true"
+									scrollHeight="200" var="sended">
+									<p:ajax event="rowSelect"
+										update=":form:panel2, :form:messageDialog" />
+									<p:column headerText="Címzett"
+										filterBy="#{sended.recipient.username}"
+										sortBy="#{sended.recipient.username}">
+										<h:outputText value="#{sended.recipient.username}" />
+									</p:column>
+									<p:column headerText="Dátum">
+										<h:outputText value="#{sended.date}" />
+									</p:column>
+								</p:dataTable>
+								<p:commandButton process="sendedDT"
+									style="float: left; margin-top: 10px" icon="ui-icon-mail-open"
+									disabled="#{issuemanagementController.selectedMessage == null}"
+									value="Olvas" oncomplete="PF('messageDialog').show();" />
+								<p:commandButton icon="ui-icon-trash" value="Törlés"
+									id="deleteSelectedSM" style="margin-top: 10px"
+									update=":form:panel2"
+									disabled="#{issuemanagementController.selectedMessage == null}"
+									actionListener="#{issuemanagementController.deleteMessage}" />
+							</p:panel>
+						</p:tab>
+					</p:wizard>
+				</p:panel>
+			</p:panel>
+
+			<p:dialog modal="true" widgetVar="messageDialog" position="top"
+				header="Üzenet" id="messageDialog" style="margin-top: 100px"
+				width="500" height="300">
+
+				<h:outputText id="display"
+					value="#{issuemanagementController.selectedMessage.message}"
+					escape="false" />
+			</p:dialog>
+
+			<p:dialog modal="true" widgetVar="mDialog"></p:dialog>
+		</h:form>
 	</ui:define>
 </ui:composition>

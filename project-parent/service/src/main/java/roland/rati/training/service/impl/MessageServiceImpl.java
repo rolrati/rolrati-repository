@@ -37,12 +37,13 @@ public class MessageServiceImpl implements MessageService, Serializable {
 	}
 
 	@Override
-	public void addMessage(String message, UserVo sender, UserVo recipient)
+	public void addMessage(String message, UserVo sender, UserVo recipient, String date)
 			throws Exception {
 		MessageVo vo = new MessageVo();
 		vo.setMessage(message);
 		vo.setSender(sender);
 		vo.setRecipient(recipient);
+		vo.setDate(date);
 
 		messageDao.save(MessageConverter.toEntity(vo));
 	}

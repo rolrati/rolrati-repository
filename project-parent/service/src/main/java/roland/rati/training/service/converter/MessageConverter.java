@@ -19,7 +19,8 @@ public class MessageConverter {
 		vo.setMessage(dto.getMessage());
 		vo.setSender(UserConverter.toVO(dto.getSender()));
 		vo.setRecipient(UserConverter.toVO(dto.getRecipient()));
-		
+		vo.setDate(dto.getDate());
+		 
 		return vo;
 		
 	}
@@ -50,6 +51,7 @@ public class MessageConverter {
 		dto.setMessage(vo.getMessage());
 		dto.setSender(UserConverter.toEntity(vo.getSender()));
 		dto.setRecipient(UserConverter.toEntity(vo.getRecipient()));
+		dto.setDate(vo.getDate());
 		
 		return dto;
 		

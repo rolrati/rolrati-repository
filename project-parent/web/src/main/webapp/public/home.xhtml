@@ -10,6 +10,7 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<p:growl id="growl" autoUpdate="true"></p:growl>
 		<h:body>
 			<h:form>
 				<h:outputStylesheet library="css" name="home.css"></h:outputStylesheet>
@@ -33,20 +34,18 @@
 						style="width: 230; min-height: 840; float: left; margin-top: 30px">
 						<table>
 							<tr>
-								<td><p:commandLink value="Nyitvatartás" style="color: blue" /></td>
+								<td><p:commandLink value="Nyitvatartás" style="color: blue"
+										onclick="PF('openingHoursDialog').show()" /></td>
 							</tr>
 							<tr>
 								<td></td>
-							</tr>
-							<tr>
-								<td><p:commandLink value="Elérhetőség" style="color: blue" /></td>
 							</tr>
 							<tr>
 								<td></td>
 							</tr>
 							<tr>
 								<td><p:commandLink value="Kapcsolatfelvétel" ajax="false"
-								actionListener="#{issuemanagementController.refreshMessageBox}"
+										actionListener="#{issuemanagementController.refreshMessageBox}"
 										action="/secured/issuemanagement.xhtml?faces-redirect=true"
 										style="color: blue" /></td>
 							</tr>
@@ -70,6 +69,9 @@
 
 					</p:panel>
 				</p:panel>
+
+				<p:dialog widgetVar="openingHoursDialog" modal="true" position="top" header="Nyitvatartás"
+					style="margin-top: 100px" height="200" width="500">Hamarosan...</p:dialog>
 			</h:form>
 		</h:body>
 	</ui:define>

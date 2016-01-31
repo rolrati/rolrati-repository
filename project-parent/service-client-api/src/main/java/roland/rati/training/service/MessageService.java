@@ -11,7 +11,7 @@ public interface MessageService {
 
 	List<MessageVo> findMessageByUser(Long userId) throws Exception;
 
-	void addMessage(String message, UserVo sender, UserVo recipient)
+	void addMessage(String message, UserVo sender, UserVo recipient, String date)
 			throws Exception;
 
 	void deleteMessage(MessageVo message) throws Exception;

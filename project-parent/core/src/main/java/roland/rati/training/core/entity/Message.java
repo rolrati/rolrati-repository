@@ -23,6 +23,7 @@ public class Message extends Base {
 	@Basic(fetch=FetchType.LAZY)
 	private String message;
 	
+	private String date;
 	
 	public User getSender() {
 		return sender;
@@ -46,6 +47,14 @@ public class Message extends Base {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

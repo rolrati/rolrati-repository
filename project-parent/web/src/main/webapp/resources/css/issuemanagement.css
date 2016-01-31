@@ -1,0 +1,6 @@
+.ui-datatable.borderless thead th, .ui-datatable.borderless tbody,
+	.ui-datatable.borderless tbody tr, .ui-datatable.borderless tbody td {
+	border-style: none;
+	padding: 0;
+	color: blue;
+}

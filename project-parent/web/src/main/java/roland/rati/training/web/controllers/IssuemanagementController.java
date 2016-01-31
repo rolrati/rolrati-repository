@@ -8,8 +8,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +28,7 @@ import roland.rati.training.service.vo.RoleVo;
 import roland.rati.training.service.vo.UserVo;
 
 @Component
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "issuemanagementController")
 public class IssuemanagementController implements Serializable {
 
@@ -34,9 +36,9 @@ public class IssuemanagementController implements Serializable {
 
 	private String text;
 	private UserVo toUser;
-	
+
 	private List<UserVo> users;
-	
+
 	private List<MessageVo> recieved;
 	private List<MessageVo> sended;
 
@@ -50,6 +52,11 @@ public class IssuemanagementController implements Serializable {
 
 	@Autowired
 	MessageService messageService;
+
+	public void info(Severity severity, String summary, String details) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(severity, summary, details));
+	}
 
 	public void initOrderList(ToggleEvent event) {
 		setUsers(new LinkedList<UserVo>());
@@ -76,42 +83,75 @@ public class IssuemanagementController implements Serializable {
 		}
 	}
 
+	public void removeMessageSelect() {
+		selectedMessage = null;
+	}
+
+	public void deleteMessage() {
+		if (selectedMessage != null) {
+			try {
+				messageService.deleteMessage(selectedMessage);
+				if (sended.contains(selectedMessage)) {
+					sended.remove(selectedMessage);
+				} else if (recieved.contains(selectedMessage)) {
+					recieved.remove(selectedMessage);
+				}
+
+				info(FacesMessage.SEVERITY_INFO, "Információ", "Üzenet törölve");
+				selectedMessage = null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void refreshMessageBox() {
 		recieved = new LinkedList<MessageVo>();
 		sended = new LinkedList<MessageVo>();
-		
+
 		List<MessageVo> vos = new LinkedList<MessageVo>();
 
 		try {
 			UserVo authenticatedUser = getAuthenticatedUser();
-			vos = messageService.findMessageByUser(authenticatedUser.getId());
-			
-			for (MessageVo messageVo : vos) {
-				if(messageVo.getSender().getId() == authenticatedUser.getId()){
+			if (authenticatedUser != null) {
+				vos = messageService.findMessageByUser(authenticatedUser
+						.getId());
+
+				for (MessageVo messageVo : vos) {
+					if (messageVo.getSender().getId() == authenticatedUser
+							.getId()) {
 						sended.add(messageVo);
-				}else if(messageVo.getRecipient().getId() == authenticatedUser.getId()){
-					recieved.add(messageVo);
+					} else if (messageVo.getRecipient().getId() == authenticatedUser
+							.getId()) {
+						recieved.add(messageVo);
+					}
 				}
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void getTextValue() {
-		try {
-			Date date = new Date();
-			DateFormat dateFormat = new SimpleDateFormat(
-					"yyyy/mm/dd HH:MM:ss:mm");
-			System.out.println(dateFormat.format(date));
-			messageService.addMessage(text, getAuthenticatedUser(), toUser);
+		if (text.length() >= 3) {
+			try {
+				Date date = new Date();
+				DateFormat dateFormat = new SimpleDateFormat(
+						"yyyy/mm/dd HH:MM:ss");
+				System.out.println(dateFormat.format(date));
+				messageService.addMessage(text, getAuthenticatedUser(), toUser,
+						dateFormat.format(date));
+				
+				info(FacesMessage.SEVERITY_INFO, "Információ", "Üzenet elküldve");
 
-			refreshMessageBox();
-			text = null;
-			toUser = null;
-		} catch (Exception e) {
-			e.printStackTrace();
+				refreshMessageBox();
+				text = null;
+				toUser = null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			info(FacesMessage.SEVERITY_ERROR, "Hiba", "Üzenet hossza túl rövid");
 		}
 	}
 
