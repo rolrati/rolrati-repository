@@ -15,5 +15,7 @@ public interface MessageService {
 			throws Exception;
 
 	void deleteMessage(MessageVo message) throws Exception;
+	
+	void updateMessageStatus(Long messageId, boolean status) throws Exception;
 
 }

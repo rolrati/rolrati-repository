@@ -20,6 +20,7 @@ public class MessageConverter {
 		vo.setSender(UserConverter.toVO(dto.getSender()));
 		vo.setRecipient(UserConverter.toVO(dto.getRecipient()));
 		vo.setDate(dto.getDate());
+		vo.setViewed(dto.isViewed());
 		 
 		return vo;
 		
@@ -52,6 +53,7 @@ public class MessageConverter {
 		dto.setSender(UserConverter.toEntity(vo.getSender()));
 		dto.setRecipient(UserConverter.toEntity(vo.getRecipient()));
 		dto.setDate(vo.getDate());
+		dto.setViewed(vo.isViewed());
 		
 		return dto;
 		

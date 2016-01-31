@@ -44,6 +44,7 @@ public class MessageServiceImpl implements MessageService, Serializable {
 		vo.setSender(sender);
 		vo.setRecipient(recipient);
 		vo.setDate(date);
+		vo.setViewed(false);
 
 		messageDao.save(MessageConverter.toEntity(vo));
 	}
@@ -51,6 +52,14 @@ public class MessageServiceImpl implements MessageService, Serializable {
 	@Override
 	public void deleteMessage(MessageVo message) throws Exception {
 		messageDao.delete(MessageConverter.toEntity(message));
+	}
+
+	@Override
+	public void updateMessageStatus(Long messageId, boolean status)
+			throws Exception {
+		MessageVo selectedMessage = MessageConverter.toVO(messageDao.findMessageById(messageId));
+		selectedMessage.setViewed(status);
+		messageDao.save(MessageConverter.toEntity(selectedMessage));
 	}
 
 }

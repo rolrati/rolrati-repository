@@ -23,7 +23,8 @@ body {
 		<h:body>
 			<h:graphicImage library="img" name="header2.jpg"
 				style="display:block;width: 1150px; height: 300;margin:0px auto" />
-			<p:menubar style="width:1120px; display: block; margin: 0px auto">
+			<p:menubar id="menubar"
+				style="width:1120px; display: block; margin: 0px auto">
 				<p:menuitem value="Kezdőlap" url="/public/home.xhtml"
 					icon="ui-icon-home" />
 
@@ -34,6 +35,10 @@ body {
 								icon="ui-icon-locked" />
 						</c:when>
 						<c:otherwise>
+							<p:button href="/secured/issuemanagement.xhtml"
+								rendered="#{issuemanagementController.newMessageNumber > 0}"
+								value="#{issuemanagementController.newMessageNumber.toString()}"
+								icon="ui-icon-mail-closed" style="color: green" />
 							<p:button icon="ui-icon-person"
 								style="color: blue; margin-right: 10px"
 								value="#{request.userPrincipal.name}"
@@ -54,7 +59,7 @@ body {
 					</div>
 				</div>
 			</div>
-			
+
 		</h:body>
 	</f:view>
 </ui:composition>

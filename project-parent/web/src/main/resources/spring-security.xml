@@ -12,7 +12,11 @@
 		<security:form-login login-page="/public/login.xhtml"
 			login-processing-url="/login" default-target-url="/public/home.xhtml"
 			authentication-failure-url="/public/login.xhtml?error=1"
-			username-parameter="username" password-parameter="password" />
+			username-parameter="username" password-parameter="password"/>
+			
+<!-- 			authentication-success-handler-ref="authSuccessHandler" -->
+			
+			
 		<security:logout logout-url="/logout"
 			logout-success-url="/public/home.xhtml" />
 
@@ -20,6 +24,7 @@
 			remember-me-parameter="remember-me" token-validity-seconds="86400" />
 	</security:http>
 
+<!-- 	<bean id="authSuccessHandler" class="roland.rati.training.web.AuthenticationSuccessListener" /> -->
 
 	<security:authentication-manager id="authenticationManager">
 		<security:authentication-provider

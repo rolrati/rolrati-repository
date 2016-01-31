@@ -25,6 +25,8 @@ public class Message extends Base {
 	
 	private String date;
 	
+	private boolean viewed;
+	
 	public User getSender() {
 		return sender;
 	}
@@ -57,4 +59,11 @@ public class Message extends Base {
 		this.date = date;
 	}
 
+	public boolean isViewed() {
+		return viewed;
+	}
+
+	public void setViewed(boolean viewed) {
+		this.viewed = viewed;
+	}
 }

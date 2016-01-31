@@ -11,8 +11,9 @@ public class MessageVo implements Serializable {
 	private UserVo recipient;
 	private String message;
 	private String date;
-	
-	public MessageVo(){
+	private boolean viewed;
+
+	public MessageVo() {
 	}
 
 	public Long getId() {
@@ -50,7 +51,7 @@ public class MessageVo implements Serializable {
 	@Override
 	public String toString() {
 		return "MessageVo [id=" + id + ", sender=" + sender + ", recipient="
-				+ recipient + ", message=" + message + "]";
+				+ recipient + ", message=" + message + "], viewed=" + viewed;
 	}
 
 	public String getDate() {
@@ -84,5 +85,13 @@ public class MessageVo implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public boolean isViewed() {
+		return viewed;
+	}
+
+	public void setViewed(boolean viewed) {
+		this.viewed = viewed;
 	}
 }

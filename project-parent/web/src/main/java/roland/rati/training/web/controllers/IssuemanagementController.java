@@ -36,8 +36,9 @@ public class IssuemanagementController implements Serializable {
 
 	private String text;
 	private UserVo toUser;
-
 	private List<UserVo> users;
+
+	private int newMessageNumber;
 
 	private List<MessageVo> recieved;
 	private List<MessageVo> sended;
@@ -56,6 +57,30 @@ public class IssuemanagementController implements Serializable {
 	public void info(Severity severity, String summary, String details) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(severity, summary, details));
+	}
+
+	public void setMessageStatus() {
+		try {
+			MessageVo vo = messageService.findMessageById(selectedMessage
+					.getId());
+			messageService.updateMessageStatus(vo.getId(),
+					selectedMessage.isViewed());
+			
+			if (selectedMessage.isViewed() == true) {
+				newMessageNumber--;
+			}else{
+				newMessageNumber++;
+			}
+
+			for (MessageVo messageVo : recieved) {
+				if (messageVo.getId() == selectedMessage.getId()) {
+					messageVo.setViewed(selectedMessage.isViewed());
+				}
+			}
+			selectedMessage = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void initOrderList(ToggleEvent event) {
@@ -95,6 +120,9 @@ public class IssuemanagementController implements Serializable {
 					sended.remove(selectedMessage);
 				} else if (recieved.contains(selectedMessage)) {
 					recieved.remove(selectedMessage);
+					if (selectedMessage.isViewed() == false) {
+						newMessageNumber--;
+					}
 				}
 
 				info(FacesMessage.SEVERITY_INFO, "Információ", "Üzenet törölve");
@@ -111,6 +139,9 @@ public class IssuemanagementController implements Serializable {
 
 		List<MessageVo> vos = new LinkedList<MessageVo>();
 
+		newMessageNumber = 0;
+		selectedMessage = null;
+
 		try {
 			UserVo authenticatedUser = getAuthenticatedUser();
 			if (authenticatedUser != null) {
@@ -124,11 +155,21 @@ public class IssuemanagementController implements Serializable {
 					} else if (messageVo.getRecipient().getId() == authenticatedUser
 							.getId()) {
 						recieved.add(messageVo);
+						if (messageVo.isViewed() == false) {
+							newMessageNumber++;
+						}
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void infoNewMessage() {
+		if (newMessageNumber != 0) {
+			info(FacesMessage.SEVERITY_INFO, "Információ", newMessageNumber
+					+ " olvasatlan üzenet");
 		}
 	}
 
@@ -141,8 +182,9 @@ public class IssuemanagementController implements Serializable {
 				System.out.println(dateFormat.format(date));
 				messageService.addMessage(text, getAuthenticatedUser(), toUser,
 						dateFormat.format(date));
-				
-				info(FacesMessage.SEVERITY_INFO, "Információ", "Üzenet elküldve");
+
+				info(FacesMessage.SEVERITY_INFO, "Információ",
+						"Üzenet elküldve");
 
 				refreshMessageBox();
 				text = null;
@@ -150,7 +192,7 @@ public class IssuemanagementController implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else{
+		} else {
 			info(FacesMessage.SEVERITY_ERROR, "Hiba", "Üzenet hossza túl rövid");
 		}
 	}
@@ -175,10 +217,6 @@ public class IssuemanagementController implements Serializable {
 	}
 
 	public IssuemanagementController() {
-	}
-
-	public void asd() {
-		System.out.println(text);
 	}
 
 	public String getText() {
@@ -228,4 +266,13 @@ public class IssuemanagementController implements Serializable {
 	public void setSelectedMessage(MessageVo selectedMessage) {
 		this.selectedMessage = selectedMessage;
 	}
+
+	public int getNewMessageNumber() {
+		return newMessageNumber;
+	}
+
+	public void setNewMessageNumber(int newMessageNumber) {
+		this.newMessageNumber = newMessageNumber;
+	}
+
 }
