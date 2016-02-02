@@ -39,7 +39,7 @@ public class IssuemanagementController implements Serializable {
 	private List<UserVo> users;
 
 	private int newMessageNumber;
-
+	
 	private List<MessageVo> recieved;
 	private List<MessageVo> sended;
 
@@ -130,6 +130,13 @@ public class IssuemanagementController implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void refreshAfterHomePageLoad(){
+		if (getAuthenticatedUser() != null) {
+			System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
+			refreshMessageBox();
 		}
 	}
 
@@ -274,5 +281,4 @@ public class IssuemanagementController implements Serializable {
 	public void setNewMessageNumber(int newMessageNumber) {
 		this.newMessageNumber = newMessageNumber;
 	}
-
 }

@@ -14,8 +14,7 @@
 			authentication-failure-url="/public/login.xhtml?error=1"
 			username-parameter="username" password-parameter="password"/>
 			
-<!-- 			authentication-success-handler-ref="authSuccessHandler" -->
-			
+<!-- 			authentication-success-handler-ref="authSuccessHandler"  -->
 			
 		<security:logout logout-url="/logout"
 			logout-success-url="/public/home.xhtml" />

@@ -17,5 +17,13 @@ public class AuthenticationSuccessListener implements
 			HttpServletResponse arg1, Authentication arg2) throws IOException,
 			ServletException {
 
+//		arg1.sendRedirect("public/home.xhtml");
+//
+//		FacesContext.getCurrentInstance().addMessage(
+//				null,
+//				new FacesMessage(FacesMessage.SEVERITY_INFO, "",
+//						"Sikeres bejelentkezés"));
+
 	}
+
 }

@@ -10,9 +10,13 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<p:growl id="growl" autoUpdate="true"></p:growl>
 		<h:body>
 			<h:form>
+				<f:event
+					listener="#{issuemanagementController.refreshAfterHomePageLoad}"
+					type="preRenderView"></f:event>
+				<p:growl id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
 				<h:outputStylesheet library="css" name="home.css"></h:outputStylesheet>
 				<p:panel styleClass="mainPanel"
 					style="display: block;width: 1142px;min-height: 900px; margin: 0px auto; background-color: #f5f5f0">
@@ -46,7 +50,8 @@
 							<tr>
 								<td><p:commandLink value="Kapcsolatfelvétel" ajax="false"
 										action="/secured/issuemanagement.xhtml?faces-redirect=true"
-										style="color: blue" actionListener="#{issuemanagementController.refreshMessageBox}"/></td>
+										style="color: blue"
+										actionListener="#{issuemanagementController.refreshMessageBox}" /></td>
 							</tr>
 						</table>
 					</p:panel>

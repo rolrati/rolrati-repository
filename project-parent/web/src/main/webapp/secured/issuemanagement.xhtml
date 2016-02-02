@@ -71,16 +71,17 @@
 					</p:panel>
 
 					<p:panel id="panel2"
-						style="display: block; margin: 0px auto; border: none; background-color: #f5f5f0; width: 650px">
+						style="display: block; background-color: #f5f5f0; float: left; width: 875px; margin-top: 100px; margin-left:10px; border: none">
 						<p:remoteCommand name="rc"
 							actionListener="#{issuemanagementController.removeMessageSelect}"
 							update=":form:panel2" />
-						<p:wizard id="wizard" nextLabel="Következő" backLabel="Előző"
-							showNavBar="true" showStepStatus="true" onnext="rc()"
-							onback="rc()"
-							style="display: block; margin: 0px auto; margin-top: 100px">
+						<p:tabView orientation="left"
+							style="maring-left: 100px; border: 0px">
+							<p:ajax event="tabChange"
+								listener="#{issuemanagementController.removeMessageSelect}"
+								update=":form:panel2" />
 							<p:tab id="recieved" title="Beérkezett">
-								<p:panel style="height: 350px">
+								<p:panel>
 									<p:dataTable id="receivedDT" selectionMode="single"
 										selection="#{issuemanagementController.selectedMessage}"
 										rowKey="#{received.id}" var="received" scrollHeight="200"
@@ -107,7 +108,7 @@
 										<f:facet name="footer">
 											<p:outputLabel value="Megjelölés olvasottként"
 												rendered="#{issuemanagementController.selectedMessage != null}" />
-											<p:selectBooleanButton offLabel="Nem" onLabel="Igen" 
+											<p:selectBooleanButton offLabel="Nem" onLabel="Igen"
 												rendered="#{issuemanagementController.selectedMessage != null}"
 												style="height: 28px; margin-left: 30px"
 												disabled="#{issuemanagementController.selectedMessage == null}"
@@ -129,13 +130,13 @@
 										disabled="#{issuemanagementController.selectedMessage == null}"
 										actionListener="#{issuemanagementController.deleteMessage}" />
 									<p:commandButton value="Frissítés"
-										style="margin-top: 10px; float: right" update=":form:panel2, menubar"
-										icon="ui-icon-refresh"
+										style="margin-top: 10px; float: right"
+										update=":form:panel2, menubar" icon="ui-icon-refresh"
 										actionListener="#{issuemanagementController.refreshMessageBox}" />
 								</p:panel>
 							</p:tab>
 							<p:tab id="sended" title="Elküldött">
-								<p:panel style="height: 320px">
+								<p:panel>
 									<p:dataTable id="sendedDT" selectionMode="single"
 										emptyMessage="Üres"
 										selection="#{issuemanagementController.selectedMessage}"
@@ -164,7 +165,7 @@
 										actionListener="#{issuemanagementController.deleteMessage}" />
 								</p:panel>
 							</p:tab>
-						</p:wizard>
+						</p:tabView>
 					</p:panel>
 				</p:panel>
 

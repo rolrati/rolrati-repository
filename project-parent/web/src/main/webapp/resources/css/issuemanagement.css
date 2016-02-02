@@ -4,3 +4,15 @@
 	padding: 0;
 	color: blue;
 }
+
+.ui-tabs .ui-tabs-panel {
+	background: white;
+	padding: 0px;
+	height: 310px;
+}
+
+.ui-tabs.ui-tabs-left>.ui-tabs-nav {
+	width: 206px;
+	height: 0px;
+}
+
