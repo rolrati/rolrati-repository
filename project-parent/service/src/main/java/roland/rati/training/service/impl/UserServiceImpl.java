@@ -86,4 +86,14 @@ public class UserServiceImpl implements UserService, Serializable {
 		return UserConverter.toVO(userDAO.findAll());
 	}
 
+	@Override
+	public void changePassword(Long userId, String password) throws Exception {
+		UserVo user = new UserVo();
+		
+		user = UserConverter.toVO(userDAO.findUserById(userId));
+		user.setPassword(password);
+		
+		userDAO.save(UserConverter.toEntity(user));
+	}
+
 }

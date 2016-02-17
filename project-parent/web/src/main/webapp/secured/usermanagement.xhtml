@@ -11,19 +11,65 @@
 
 	<ui:define name="content">
 		<h:body>
-			<h:form>
+			<h:form id="form">
+				<p:growl id="messages" showDetail="true" closable="true" />
+				<f:event
+					listener="#{usermanagementController.loadAuthenticatedUserDatas}"
+					type="preRenderView" update="form"></f:event>
+				<h:outputStylesheet name="usermanagement.css" library="css" />
 				<p:panel styleClass="mainPanel"
-					style="display: block;width: 1142px;min-height: 900px; margin: 0px auto; background-color: #f5f5f0">
+					style="display: block;width: 1142px;min-height: 1000px; margin: 0px auto; background-color: #f5f5f0">
 
 					<h2 align="center" style="margin-top: 20px">Felhasználó
 						általános adatbeállítások</h2>
 					<h:graphicImage library="img" name="login.jpg"
-						style="width:200px; height: 200px; margin-left: 25px" />, 
+						style="width:200px; height: 200px; margin-left: 25px" />
 
-					<p:panel style="min-height: 790px; width: 830px; float: right">
-						Hamarosan...
+					<p:panel style="min-height: 900px; width: 830px; float: right">
+						<p:fieldset legend="Bejelentkezési adatok">
+							<p:panelGrid columns="2"
+								style="display: block; margin-top: 15px; margin-left: 20px">
+								<p:outputLabel value="Felhasználónév" />
+								<p:outputLabel style="margin-left: 40px; color: blue"
+									value="#{usermanagementController.authenticatedUser.username}"
+									disabled="true" />
+							</p:panelGrid>
+
+							<p:commandButton value="Jelszó módosítás"
+								onclick="PF('passwordChangeDialog').show()"
+								style="margin-top:30px; margin-left:30px" />
+
+						</p:fieldset>
 					</p:panel>
 				</p:panel>
+			</h:form>
+			<h:form id="passwordChangeForm">
+				<p:dialog resizable="false" modal="true"
+					widgetVar="passwordChangeDialog" position="top"
+					style="margin-top:170px" header="Jelszó módosítás">
+					<p:panelGrid columns="3">
+						<p:outputLabel value="Régi jelszó" />
+						<p:password id="oldpassword"
+							value="#{usermanagementController.oldPassword}" required="true"
+							requiredMessage="A mező kitöltése kötelező" />
+						<p:message for="oldpassword" />
+						<p:outputLabel value="Új jelszó" />
+						<p:password id="newpassword"
+							value="#{usermanagementController.newPassword}" required="true"
+							requiredMessage="A mező kitöltése kötelező" />
+						<p:message for="newpassword" />
+						<p:outputLabel value="Jelszó megerősítése" />
+						<p:password id="newpasswordconf"
+							value="#{usermanagementController.newPasswordConfirmation}"
+							required="true" requiredMessage="A mező kitöltése kötelező" />
+						<p:message for="newpasswordconf" />
+					</p:panelGrid>
+					<p:commandButton
+						actionListener="#{usermanagementController.changePassword}"
+						validateClient="true" update=":form" value="Módosít"
+						onsuccess="PF('passwordChangeDialog').hide()"
+						style="margin-top: 10px; margin-left: 10px"></p:commandButton>
+				</p:dialog>
 			</h:form>
 		</h:body>
 	</ui:define>

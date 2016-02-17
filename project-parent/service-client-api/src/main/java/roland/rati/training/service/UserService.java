@@ -27,5 +27,7 @@ public interface UserService {
 	public List<UserVo> findUsersByRole(Long id) throws Exception;
 
 	public List<UserVo> findAllUser() throws Exception;
+	
+	public void changePassword(Long userId, String password) throws Exception;
 
 }

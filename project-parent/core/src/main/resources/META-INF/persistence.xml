@@ -5,14 +5,20 @@
 
 	<persistence-unit name="roland.rati.training.jpa">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<non-jta-data-source>java:comp/env/jdbc/TestDB</non-jta-data-source>
+		<class>roland.rati.training.core.entity.Address</class>
 		<class>roland.rati.training.core.entity.Base</class>
 		<class>roland.rati.training.core.entity.Message</class>
+		<class>roland.rati.training.core.entity.Person</class>
 		<class>roland.rati.training.core.entity.Role</class>
 		<class>roland.rati.training.core.entity.User</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/rolratidb" />
+		
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
